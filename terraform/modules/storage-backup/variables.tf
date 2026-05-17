@@ -3,12 +3,12 @@ variable "project_id" {
     type = string
 }
 
-varibale "bucket_name" {
+variable "bucket_name" {
     description = "Cloud Storage bucket name"
     type = string
 }
 
-varibale "location" {
+variable "location" {
     description = "Bucket Location"
     type = string
 }

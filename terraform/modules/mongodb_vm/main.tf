@@ -8,13 +8,13 @@ resource "google_service_account" "mongodb_sa" {
 resource "google_project_iam_member" "mongodb_instance_admin" {
     project = var.project_id
     role = "roles/compute.instanceAdmin.v1"
-    member = "serviceAccount:${google_service_account.mongodb_sa.email}
+    member = "serviceAccount:${google_service_account.mongodb_sa.email}"
 }
 
 resource "google_project_iam_member" "mongodb_storage_admin" {
     project = var.project_id
     role = "roles/storage.admin"
-    member = "serviceAccount:${google_service_account.mongodb_sa.email}
+    member = "serviceAccount:${google_service_account.mongodb_sa.email}"
 }
 
 resource "google_compute_firewall" "mongodb_ssh" {
@@ -75,7 +75,7 @@ resource "google_compute_instance" "mongodb" {
 
     network_interface {
         network = var.network
-        subnetwork = var.subnetwork
+        subnetwork = var.subnet
         access_config {
 
         }
@@ -83,7 +83,7 @@ resource "google_compute_instance" "mongodb" {
 
     service_account {
         email = google_service_account.mongodb_sa.email
-        scope = ["cloud-platform"]
+        scopes = ["https://www.googleapis.com/auth/cloud-platform"]
     }
 
     metadata = {
@@ -94,9 +94,9 @@ resource "google_compute_instance" "mongodb" {
         mongodb_password = var.mongodb_password
         bucket_name = var.bucket_name
     })
+}
 
-    resource "google_compute_address" "mongodb" {
-        name = "wiz-mongodb-ip"
-        region = var.region
-    }
+resource "google_compute_address" "mongodb" {
+    name = "wiz-mongodb-ip"
+    region = var.region
 }

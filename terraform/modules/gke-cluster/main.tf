@@ -15,20 +15,20 @@ resource "google_project_iam_member" "gke_logging" {
 resource "google_project_iam_member" "gke_monitoring" {
     project = var.project_id
     role = "roles/monitoring.metricWriter"
-    member = "serviceAccount:${google_service_account.gke_nodes.email}
+    member = "serviceAccount:${google_service_account.gke_nodes.email}"
 }
 
 resource "google_project_iam_member" "gke_monitoring_viewer" {
     project = var.project_id
     role = "roles/monitoring.viewer"
-    member = "serviceAccount:${google_service_account.gke_nodes.email}
+    member = "serviceAccount:${google_service_account.gke_nodes.email}"
 }
 
 
 resource "google_project_iam_member" "gke_artifact_registry" {
     project = var.project_id
     role = "roles/artifactregistry.reader"
-    member = "serviceAccount:${google_service_account.gke_nodes.email}
+    member = "serviceAccount:${google_service_account.gke_nodes.email}"
 }
 
 #GKE Cluster
@@ -45,17 +45,17 @@ resource "google_container_cluster" "primary" {
     subnetwork = var.subnetwork
 
     ip_allocation_policy {
-        cluster_secondary_range_name = vars.pods_range_name
-        services_secondary_range_name = vars.services.range_name
+        cluster_secondary_range_name = var.pods_range_name
+        services_secondary_range_name = var.services_range_name
     }
 
     private_cluster_config {
         enable_private_nodes = true
         enable_private_endpoint = false
-        master_ipv4_cidr_block = 172.16.0.0/28"
+        master_ipv4_cidr_block = "172.16.0.0/28"
     }
 
-    master_authorized_network_config {
+    master_authorized_networks_config {
         cidr_blocks {
             cidr_block = "0.0.0.0/0"
             display_name = "All networks"
@@ -73,7 +73,7 @@ resource "google_container_cluster" "primary" {
     }
 
     network_policy {
-        enable = false
+        enabled = false
         provider = "PROVIDER_UNSPECIFIED"
     }
 
@@ -92,7 +92,7 @@ resource "google_container_cluster" "primary" {
     }
 
     logging_config {
-        enable_components ["SYSTEM_COMPONENTS", "WORKLOADS"]
+        enable_components = ["SYSTEM_COMPONENTS", "WORKLOADS"]
     }
 
     monitoring_config {

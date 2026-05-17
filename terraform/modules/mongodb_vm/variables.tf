@@ -14,20 +14,20 @@ variable "zone" {
     type = string
 }
 
-varibale "network" {
+variable "network" {
     description = "VPC Network name"
     type = string
 }
 
 variable "subnet" {
-    description "Subnet Name"
+    description = "Subnet Name"
     type = string
 }
 
 variable "machine_type" {
-    description "Machine tye for Mongodb VM"
+    description = "Machine type for Mongodb VM"
     type = string
-    default = "n1-standard-2
+    default = "n1-standard-2"
 }
 
 variable "mongodb_password" {

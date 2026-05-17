@@ -18,7 +18,7 @@ resource "google_project_iam_audit_config" "audit_all" {
 
 resource "google_logging_project_sink" "audit_sink" {
     name = "wiz-audit-log-sink"
-    destination = "storage.googleapils.com/${google_storage_bucket.audit_logs.name}
+    destination = "storage.googleapils.com/${google_storage_bucket.audit_logs.name}"
 
     filter = <<EOF
     logName:"cloudaudit.googleapis.com"
@@ -33,9 +33,7 @@ resource "google_storage_bucket" "audit_logs" {
 
     force_destroy = false
 
-    uniform_bucket_level_access {
-        enabled = true
-    }
+    uniform_bucket_level_access = true
 
     versioning {
         enabled = true
@@ -50,7 +48,7 @@ resource "google_storage_bucket" "audit_logs" {
         }
     }
 
-    labels {
+    labels = {
         environment = var.environment
         purpose = "audit-logs"
     }
@@ -59,7 +57,7 @@ resource "google_storage_bucket" "audit_logs" {
 resource "google_storage_bucket_iam_member" "audit_log_writer" {
     bucket = google_storage_bucket.audit_logs.name
     role = "roles/storage.objectCreator"
-    member = "google_logging_project_sink.audit_sink.writer_identity
+    member = google_logging_project_sink.audit_sink.writer_identity
 }
 
 resource "google_monitoring_alert_policy" "failed_ssh_login" {

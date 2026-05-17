@@ -3,7 +3,7 @@ variable "project_id" {
     type = string
 }
 
-varibale "region" {
+variable "region" {
     description = "GCP Region"
     type = string
 }

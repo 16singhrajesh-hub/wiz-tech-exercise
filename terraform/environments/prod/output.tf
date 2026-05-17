@@ -27,7 +27,7 @@ output "gke_cluster_endpoint" {
 
 output "backup_bucket_name" {
     description = "Cloud storage backup bucket name"
-    value = module.storage_backup.bucket_name
+    value = module.storage-backup.bucket_name
 }
 
 output "artifact_registry_url" {
@@ -44,4 +44,5 @@ output "configure_kubectl" {
 output "mongodb_connection_string" {
     description = "MongoDB Connection String (internal)"
     value = "mongodb://admin:${var.mongo_root_password}@${module.mongodb_vm.private_ip}:27017/tododb"
+    sensitive = true
 }

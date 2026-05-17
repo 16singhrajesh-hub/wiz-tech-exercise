@@ -6,7 +6,7 @@ output "cluster_name" {
 
 output "cluster_endpoint" {
     description = "GKE Cluster Endpoint"
-    value = google_container_cluster.primary.Endpoint
+    value = google_container_cluster.primary.endpoint
     sensitive = true
 }
 

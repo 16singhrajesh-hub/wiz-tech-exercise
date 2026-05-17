@@ -4,10 +4,6 @@ resource "google_storage_bucket" "backup" {
 
     force_destroy = true
 
-    uniform_bucket_level_access {
-        enabled = false
-    } 
-
     versioning {
         enabled = true
     }
@@ -22,15 +18,15 @@ resource "google_storage_bucket" "backup" {
         }
     }
 
-    labels {
+    labels = {
         environment = var.environment
-        purpose = "mongodb-backups"
+        purpose     = "mongodb-backups"
     }
 }
 
 resource "google_storage_bucket_iam_member" "public_read" {
-    bucket = "google_storage_bucket.backup.name
-    role = "roles/storage.objectViewer"
+    bucket = google_storage_bucket.backup.name
+    role   = "roles/storage.objectViewer"
     member = "allUsers"
 }
 

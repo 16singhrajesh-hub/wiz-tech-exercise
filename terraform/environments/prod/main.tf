@@ -1,7 +1,7 @@
 terraform {
     required_version = ">=1.5.0"
 
-    required_provider {
+    required_providers {
         google = {
             source = "hashicorp/google"
             version = "~> 5.0"
@@ -12,10 +12,10 @@ terraform {
         }
     }
 
-    backend "gcs" {
+    /*backend "gcs" {
         bucket = "wiz-exercise-terraform-state"
         prefix = "prod/terraform.tfstate"
-    }
+    }*/
 }
 
 provider "google" {
@@ -43,16 +43,16 @@ resource "google_project_service" "required_apis" {
     "storage-api.googleapis.com",
     ])
     service = each.key
-    disable_on_destory = false
+    disable_on_destroy = false
 }
 
-resouce "google_compute_network" "vpc" {
+resource "google_compute_network" "vpc" {
     name = "wiz-exercise-pvc"
     auto_create_subnetworks = false
-    depends_on [google_project_service.required_apis]
+    depends_on = [google_project_service.required_apis]
 }
 
-resources "google_compute_subnetwork" "public_subnet" {
+resource "google_compute_subnetwork" "public_subnet" {
     name = "wiz-public-subnet"
     ip_cidr_range = var.public_subnet_cidr
     region = var.gcp_region
@@ -93,17 +93,15 @@ resource "google_compute_subnetwork" "private_subnet" {
 
 module "mongodb_vm" {
     source = "../../modules/mongodb_vm"
-
     project_id = var.gcp_project_id
     region = var.gcp_region
     zone = var.gcp_zone
     network = google_compute_network.vpc.name
     subnet = google_compute_subnetwork.public_subnet.name
-    mongo_password = var.mongo_root_password
+    mongodb_password = var.mongo_root_password
     machine_type = var.mongodb_machine_type
-    bucket_name = module.storage_backup.bucket_name
-    environment = var.environment
-    
+    bucket_name = module.storage-backup.bucket_name
+    environment = var.environment    
     depends_on = [google_project_service.required_apis]
 }
 
@@ -116,7 +114,7 @@ module "gke_cluster" {
     region = var.gcp_region
     cluster_name = var.cluster_name
     network = google_compute_network.vpc.name
-    subnetwork = google_compute_subnetwork.private_subnets.name
+    subnetwork = google_compute_subnetwork.private_subnet.name
     pods_range_name = "gke-pods"
     services_range_name = "gke-services"
     node_machine_type = var.gke_node_machine_type
@@ -128,11 +126,11 @@ module "gke_cluster" {
     depends_on = [google_project_service.required_apis]
 }
 
-module "storage_backup" {
-    source = "../../modules/storage_backup"
+module "storage-backup" {
+    source = "../../modules/storage-backup"
 
     project_id = var.gcp_project_id
-    bucket_name = "wiz-mongodb-backups-${var.gcp_project_id}
+    bucket_name = "wiz-mongodb-backups-${var.gcp_project_id}"
     location = var.gcp_region
     environment = var.environment
 
@@ -163,11 +161,17 @@ resource "google_artifact_registry_repository" "app" {
     depends_on = [google_project_service.required_apis]
 }
 
+resource "google_compute_router" "router" {
+    name = "wiz-router"
+    network = google_compute_network.vpc.id
+    region = var.gcp_region
+}
+
 resource "google_compute_router_nat" "nat" {
     name = "wiz-nat"
     router = google_compute_router.router.name
     region = var.gcp_region
-    nat_ip_allocation_option = "AUTO_ONLY"
+    nat_ip_allocate_option = "AUTO_ONLY"
     source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
 
     log_config {

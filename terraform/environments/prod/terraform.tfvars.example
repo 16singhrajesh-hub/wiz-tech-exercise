@@ -1,0 +1,22 @@
+gcp_project_id = "wiz-exercise-1234" // Need to change this
+gcp_region = "us-central1"
+gcp_zone = "us-central1-a"
+owner_name = "Rajesh Singh"
+mongo_root_password = "" //need to change
+environment = "wiz-exercise"
+cluster_name = "wiz-exercise-cluster"
+
+
+#Network Configuration
+public_subnet_cidr = "10.0.1.0/24"
+private_subnet_cidr = "10.0.2.0.24"
+gke_pods_cidr = "10.1.0.0/16"
+gke_services_cidr = "10.2.0.0/16"
+
+
+#Compute Configuration
+mongodb_machine_type = "n1-standard-2"
+gke_node_machine_type = "n1-standard-2"
+gke_node_count = 2
+gke_min_node_count = 1
+gke_max_node_count = 4

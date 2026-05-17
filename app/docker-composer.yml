@@ -1,0 +1,41 @@
+
+services:
+  mongodb:
+    image: mongo:4.4
+    container_name: wiz-mongodb-local
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: localpassword123
+      MONGO_INITDB_DATABASE: tododb
+    ports:
+      - "27017:27017"
+    networks:
+      - wiz-network
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5  
+
+  todo-app:
+    build: .
+    container_name: wiz-todo-app-local
+    restart: unless-stopped
+    environment:
+      MONGODB_URI: mongodb://root:localpassword123@mongodb:27017/tododb?authSource=admin
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - wiz-network
+
+volumes:
+  mongo_data:
+    driver: local
+networks:
+  wiz-network:
+    driver: bridge

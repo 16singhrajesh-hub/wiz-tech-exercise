@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wiz-ingress
+  namespace: wiz-app
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.global-static-ip-name: ""
+spec:
+  defaultBackend:
+    service:
+      name: todo-app-service
+      port:
+        number: 80
+  rules:
+    http:
+      paths:
+      - path: /*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: todo-app-service
+            port:
+              number: 80

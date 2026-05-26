@@ -10,7 +10,7 @@ resource "google_project_iam_audit_config" "audit_all" {
 
 resource "google_logging_project_sink" "audit_sink" {
     name = "wiz-audit-log-sink"
-    destination = "storage.googleapils.com/${google_storage_bucket.audit_logs.name}"
+    destination = "storage.googleapis.com/${google_storage_bucket.audit_logs.name}"
 
     filter = <<EOF
     logName:"cloudaudit.googleapis.com"

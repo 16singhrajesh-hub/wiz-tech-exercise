@@ -22,13 +22,13 @@ systemctl start mongod
 
 sleep 10
 
-mongo admin --eval "db.createUser({user: 'admin', pwd: '${mongodb_password}', roles: [{role: 'root', db: 'admin'}]})"
+mongo admin --eval "db.createUser({user: 'admin', pwd: '${mongo_root_password}', roles: [{role: 'root', db: 'admin'}]})"
 
-mongo admin -u admin -p ${mongodb_password} --eval "
+mongo admin -u admin -p ${mongo_root_password} --eval "
 use tododb;
 db.createUser({
   user: 'todoapp',
-  pwd: '${mongodb_password}',
+  pwd: '${mongo_root_password}',
   roles: [{ role: 'readWrite', db: 'tododb' }]
 });
 "
@@ -45,7 +45,7 @@ cat > /home/ubuntu/backup-mongodb.sh <<'SCRIPT'
 #!/bin/bash
 DATE=$(date +"%Y-%m-%d")
 BACKUP_DIR="/tmp/mongodb-backup-$DATE"
-MONGO_PASSWORD="${mongodb_password}"
+MONGO_PASSWORD="${mongo_root_password}"
 BUCKET_NAME="${bucket_name}"
 
 

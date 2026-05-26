@@ -40,6 +40,9 @@ gcloud services enable container.googleapis.com \
     monitoring.googleapis.com \
     cloudtrace.googleapis.com \
     storage-api.googleapis.com \
+    container.googleapis.com \
+    secretmanager.googleapis.com \
+    storage.googleapis.com \
 
 
     echo "Setup Complete"

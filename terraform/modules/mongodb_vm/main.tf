@@ -91,7 +91,7 @@ resource "google_compute_instance" "mongodb" {
     }
 
     metadata_startup_script = templatefile("${path.module}/startup-script.sh", {
-        mongodb_password = var.mongodb_password
+        mongo_root_password = var.mongo_root_password
         bucket_name = var.bucket_name
     })
 }

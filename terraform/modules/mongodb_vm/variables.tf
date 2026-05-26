@@ -30,7 +30,7 @@ variable "machine_type" {
     default = "n1-standard-2"
 }
 
-variable "mongodb_password" {
+variable "mongo_root_password" {
     description = "Mongodb root Password"
     type = string
     sensitive = true

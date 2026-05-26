@@ -40,6 +40,8 @@ resource "google_project_service" "required_apis" {
     "monitoring.googleapis.com",
     "cloudtrace.googleapis.com",
     "storage-api.googleapis.com",
+    "secretmanager.googleapis.com",
+    "storage.googleapis.com"
     ])
     service = each.key
     disable_on_destroy = false
@@ -97,7 +99,7 @@ module "mongodb_vm" {
     zone = var.gcp_zone
     network = google_compute_network.vpc.name
     subnet = google_compute_subnetwork.public_subnet.name
-    mongodb_password = var.mongo_root_password
+    mongo_root_password = var.mongo_root_password
     machine_type = var.mongodb_machine_type
     bucket_name = module.storage-backup.bucket_name
     environment = var.environment    

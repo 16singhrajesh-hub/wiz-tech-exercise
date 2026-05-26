@@ -1,7 +1,8 @@
-gcp_project_id = "wiz-exercise-1234" // Need to change this
+gcp_project_id = "clgcporg10-151" // Need to change this
 gcp_region = "us-west1"
 gcp_zone = "us-west1-a"
 owner_name = "Rajesh Singh"
+
 mongo_root_password = "root123"
 environment = "wiz-exercise"
 cluster_name = "wiz-exercise-cluster"
@@ -9,7 +10,7 @@ cluster_name = "wiz-exercise-cluster"
 
 #Network Configuration
 public_subnet_cidr = "10.0.1.0/24"
-private_subnet_cidr = "10.0.2.0.24"
+private_subnet_cidr = "10.0.2.0/24"
 gke_pods_cidr = "10.1.0.0/16"
 gke_services_cidr = "10.2.0.0/16"
 

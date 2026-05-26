@@ -221,11 +221,11 @@ jobs:
           name: terraform-plan-${{ github.event.inputs.environment }} 
 
       - name: Terraform Init
-        working_directory: ${{ env.WORKING_DIR }}
+        working-directory: ${{ env.WORKING_DIR }}
         run: terraform init -upgrade
 
       - name: Terraform Apply
-        working_directory: ${{ env.WORKING_DIR }}
+        working-directory: ${{ env.WORKING_DIR }}
         env:
           TF_VAR_gcp_project_id: ${{ env.GCP_PROJECT_ID }}
           TF_VAR_gcp_region: ${{ env.GCP_REGION }}
@@ -236,7 +236,7 @@ jobs:
         run: terraform apply -auto-approve tfplan
 
       - name: Terraform Output
-        working_directory: ${{ env.WORKING_DIR }}
+        working-directory: ${{ env.WORKING_DIR }}
         run: | 
           terraform output -json > tfoutput.json
           cat tfoutput.json

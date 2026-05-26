@@ -222,6 +222,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: terraform-plan-${{ github.event.inputs.environment }} 
+          path: ${{ env.WORKING_DIR }}
 
       - name: Terraform Init
         working-directory: ${{ env.WORKING_DIR }}

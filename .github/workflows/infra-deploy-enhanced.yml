@@ -64,8 +64,8 @@ jobs:
         with:
           directory: 'terraform/'
           framework: 'terraform'
-          output-format: 'cli, sarif'
-          output_file_path: 'console, checkov-results.sarif'
+          output_format: 'sarif'
+          output_file_path: 'checkov-results.sarif'
           skip-check: 'CKV_GCP_1, CKV_GCP_2'
           soft_fail: true
 

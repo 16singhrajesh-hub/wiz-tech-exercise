@@ -16,12 +16,11 @@ on:
       environment:
         description: 'Select the deployment environment'
         required: true
-        default: 'production'
+        default: 'prod'
         type: choice
         options:
-          - production
-          - staging
-          - development
+          - prod
+          
       actions:
         description: 'Select the deployment action'
         required: true

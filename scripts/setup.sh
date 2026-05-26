@@ -15,8 +15,8 @@ source .env
 echo "Starting gclound Project"
 
 echo "Project ID: $GCP_PROJECT_ID"
-echo "Region: $GCP_REGION"
-echo "Zone: $GCP_ZONE"
+echo "Region: $gcp-region"
+echo "Zone: $gcp-zone"
 
 echo " "
 
@@ -24,9 +24,9 @@ echo " "
 
 gcloud config set project $GCP_PROJECT_ID
 
-gcloud config set compute/region $GCP_REGION
+gcloud config set compute/region $gcp-region
 
-gcloud config set compute/zone $GCP_ZONE
+gcloud config set compute/zone $gcp-zone
 
 # Enable Require APIS
 
@@ -36,10 +36,9 @@ gcloud services enable container.googleapis.com \
     iam.googleapis.com \
     cloudresourcemanager.googleapis.com \
     cloudbuild.googleapis.com \
-    cloudlogging.googleapis.com \
-    cloudmonitoring.googleapis.com \
+    logging.googleapis.com \
+    monitoring.googleapis.com \
     cloudtrace.googleapis.com \
-    clouddebugger.googleapis.com \
     storage-api.googleapis.com \
 
 

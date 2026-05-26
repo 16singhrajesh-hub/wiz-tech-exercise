@@ -36,5 +36,5 @@ gsutil -m rm -r gs://$AUDIT_BUCKET 2>/dev/null || echo "Audit bucket not found, 
 #Delete Artifact Registery Repository
 echo " Deleting Artifact Registry Repository"
 REPO_NAME="wiz-app-repo"
-gcloud artifacts repositories delete $REPO_NAME --location=us-central1 --quiet || echo "Artifact Registry repository not found, skipping."  
+gcloud artifacts repositories delete $REPO_NAME --location=us-west1 --quiet || echo "Artifact Registry repository not found, skipping."  
 

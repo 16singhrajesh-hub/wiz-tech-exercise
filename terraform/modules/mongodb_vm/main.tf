@@ -47,8 +47,8 @@ resource "google_compute_firewall" "mongodb_db" {
     description = "Allow Mongdb from GKE network only"
 }
 
-data "google_compute_image" "ubuntu_1804" {
-    family = "ubuntu-1804-lts"
+data "google_compute_image" "ubuntu_2204" {
+    family = "ubuntu-2204-lts"
     project = "ubuntu-os-cloud"
 }
 
@@ -67,7 +67,7 @@ resource "google_compute_instance" "mongodb" {
 
     boot_disk {
         initialize_params {
-            image = data.google_compute_image.ubuntu_1804.self_link
+            image = data.google_compute_image.ubuntu_2204.self_link
             size = 50
             type = "pd-standard"
         }

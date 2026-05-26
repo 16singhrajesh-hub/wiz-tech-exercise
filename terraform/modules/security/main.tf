@@ -6,14 +6,6 @@ resource "google_project_iam_audit_config" "audit_all" {
     audit_log_config {
         log_type = "ADMIN_READ"
     }
-
-    audit_log_config {
-        log_type = "DATA_READ"
-    }
-
-    audit_log_config {
-        log_type = "DATA_WRITE"
-    }
 }
 
 resource "google_logging_project_sink" "audit_sink" {
@@ -80,6 +72,9 @@ resource "google_monitoring_alert_policy" "failed_ssh_login" {
 
     alert_strategy {
         auto_close = "604800s" 
+        notification_rate_limit {
+            period = "300s" # Minimum allowed period is 300s (5 minutes)
+        }
     }
 
     documentation {
@@ -108,6 +103,9 @@ resource "google_monitoring_alert_policy" "public_bucket_access" {
 
     alert_strategy {
         auto_close = "604800s"
+        notification_rate_limit {
+            period = "300s" # Minimum allowed period is 300s (5 minutes)
+        }
     }
 
     documentation {
@@ -126,10 +124,11 @@ resource "google_monitoring_alert_policy" "privileged_role_assignment" {
 
         condition_matched_log {
             filter = <<EOF
-            protoPayload.methodName="google.iam.admin.v1.SetIamPolicy"
+            protoPayload.methodName="google.iam.admin.v1.SetIamPolicy" AND
             (protoPayload.request.policy.bindings.role="roles/owner" OR
-            protoPayload.request.policy.bindings.role="roles/editor" OR 
-            portoPayload.request.policy.bindings.role:~".*Admin")
+            protoPayload.request.policy.bindings.role="roles/editor" OR
+            protoPayload.request.policy.bindings.role:"Admin")
+
             EOF
         }
     }
@@ -138,6 +137,9 @@ resource "google_monitoring_alert_policy" "privileged_role_assignment" {
 
     alert_strategy {
         auto_close = "604800s"
+        notification_rate_limit {
+            period = "300s" # Minimum allowed period is 300s (5 minutes)
+        }
     }
 
     documentation {

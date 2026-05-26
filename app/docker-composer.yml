@@ -6,7 +6,7 @@ services:
     restart: unless-stopped
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: localpassword123
+      MONGO_INITDB_ROOT_PASSWORD: root123
       MONGO_INITDB_DATABASE: tododb
     ports:
       - "27017:27017"
@@ -23,7 +23,7 @@ services:
     container_name: wiz-todo-app-local
     restart: unless-stopped
     environment:
-      MONGODB_URI: mongodb://root:localpassword123@mongodb:27017/tododb?authSource=admin
+      MONGODB_URI: mongodb://root:root123@mongodb:27017/tododb?authSource=admin
       PORT: 3000
     ports:
       - "3000:3000"

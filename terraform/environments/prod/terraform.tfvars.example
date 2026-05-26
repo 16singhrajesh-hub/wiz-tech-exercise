@@ -1,8 +1,8 @@
 gcp_project_id = "wiz-exercise-1234" // Need to change this
-gcp_region = "us-central1"
-gcp_zone = "us-central1-a"
+gcp_region = "us-west1"
+gcp_zone = "us-west1-a"
 owner_name = "Rajesh Singh"
-mongo_root_password = "" //need to change
+mongo_root_password = "root123"
 environment = "wiz-exercise"
 cluster_name = "wiz-exercise-cluster"
 

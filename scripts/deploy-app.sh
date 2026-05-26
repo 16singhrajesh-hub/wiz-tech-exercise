@@ -12,18 +12,18 @@ cd app
 docker build --build-arg YOUR_NAME=$YOUR_NAME -t wiz-todo-app:latest .
 
 echo "Configuring Docker for artifact registry"
-gcloud auth configure-docker ${GCP_REGION}-docker.pkg.dev
+gcloud auth configure-docker ${gcp-region}-docker.pkg.dev
 
 echo "Tagging Docker Image"
-docker tag wiz-todo-app:latest ${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_ID}/wiz-apps/wiz-todo-app:latest
+docker tag wiz-todo-app:latest ${gcp-region}-docker.pkg.dev/${GCP_PROJECT_ID}/wiz-apps/wiz-todo-app:latest
 
-docker push ${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_ID}/wiz-apps/wiz-todo-app:latest
+docker push ${gcp-region}-docker.pkg.dev/${GCP_PROJECT_ID}/wiz-apps/wiz-todo-app:latest
 
 echo "Getting GKE credentials"
-gcloud container clusters get-credentials ${GKE_CLUSTER_NAME} --region ${GCP_REGION}-a --project ${GCP_PROJECT_ID}
+gcloud container clusters get-credentials ${GKE_CLUSTER_NAME} --region ${gcp-region}-a --project ${GCP_PROJECT_ID}
 
 echo "Get MongoDB Private IP"
-MONGO_IP=$(gcloud compute instances describe ${MONGO_INSTANCE_NAME} --zone ${GCP_ZONE}-a --format='get(networkInterfaces[0].networkIP)')
+MONGO_IP=$(gcloud compute instances describe ${MONGO_INSTANCE_NAME} --zone ${gcp-zone}-a --format='get(networkInterfaces[0].networkIP)')
 
 echo "MongoBD Private IP: $MONGO_IP"
 
@@ -32,7 +32,7 @@ echo "Update Kubernetes Manifest with MongoDB IP"
 cd k8s
 
 sed -i.bak "s/GCP_PROJECT_ID/${GCP_PROJECT_ID}/g" deployment.yaml
-sed -i.bak "s/GCP_REGION/${GCP_REGION}/g" deployment.yaml
+sed -i.bak "s/gcp-region/${gcp-region}/g" deployment.yaml
 sed -i.bak "s/MONGODB_PRIVATE_IP/${MONGO_IP}/g" deployment.yaml
 sed -i.bak "s/REPLACE_WITH_PASSWORD/$MONGO_PASSWORD/g" deployment.yaml
 

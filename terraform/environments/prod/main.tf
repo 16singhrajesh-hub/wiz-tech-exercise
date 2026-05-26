@@ -12,10 +12,10 @@ terraform {
         }
     }
 
-    /*backend "gcs" {
-        bucket = "wiz-exercise-terraform-state"
+    backend "gcs" {
+        bucket = "wiz-terraform-state-clgcporg10-151"
         prefix = "prod/terraform.tfstate"
-    }*/
+    }
 }
 
 provider "google" {
@@ -36,10 +36,9 @@ resource "google_project_service" "required_apis" {
     "iam.googleapis.com",
     "cloudresourcemanager.googleapis.com",
     "cloudbuild.googleapis.com",
-    "cloudlogging.googleapis.com",
-    "cloudmonitoring.googleapis.com",
+    "logging.googleapis.com",
+    "monitoring.googleapis.com",
     "cloudtrace.googleapis.com",
-    "clouddebugger.googleapis.com",
     "storage-api.googleapis.com",
     ])
     service = each.key

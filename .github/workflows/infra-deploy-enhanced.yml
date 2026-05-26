@@ -98,7 +98,7 @@ jobs:
         uses: tenable/terrascan-action@main
         with:
           iac_type: 'terraform'
-          iac_dir: 'terraform/environments/prod'
+          iac_dir: 'terraform/environments/prod/'
           policy_type: 'gcp'
           sarif_upload: 'true'
           non_recursive: 'false'

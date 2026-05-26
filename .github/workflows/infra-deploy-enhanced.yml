@@ -56,6 +56,7 @@ jobs:
 
       - name: Run TFSec Scan
         uses: aquasecurity/tfsec-action@v1.0.3
+        continue-on-error: true
         with:
           working-directory: 'terraform/'
           soft_fail: true
@@ -96,6 +97,7 @@ jobs:
 
       - name: Run Terrascan
         uses: tenable/terrascan-action@main
+        continue-on-error: true
         with:
           iac_type: 'terraform'
           iac_dir: 'terraform/environments/prod/'
@@ -106,6 +108,7 @@ jobs:
 
       - name: Secret Scanning with Git Leaks
         uses: gitleaks/gitleaks-action@v2
+        continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

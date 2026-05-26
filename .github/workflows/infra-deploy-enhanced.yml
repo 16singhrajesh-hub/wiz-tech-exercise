@@ -81,8 +81,8 @@ jobs:
         with:
           scan-type: 'config'
           scan-path: 'terraform/'
-          format: 'sarif'
-          output: 'trivy-results.sarif'
+          output_format: 'sarif'
+          output_file_path: 'trivy-results.sarif'
           severity: 'HIGH,CRITICAL, MEDIUM'
           exit-code: '0'
           

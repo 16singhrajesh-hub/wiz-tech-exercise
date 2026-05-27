@@ -31,6 +31,12 @@ resource "google_project_iam_member" "gke_artifact_registry" {
     member = "serviceAccount:${google_service_account.gke_nodes.email}"
 }
 
+resource "google_project_iam_member" "gke_node_default_role" {
+  project = var.project_id
+  role    = "roles/container.defaultNodeServiceAccount"
+  member  = "serviceAccount:${google_service_account.gke_nodes.email}"
+}
+
 #GKE Cluster
 
 resource "google_container_cluster" "primary" {
@@ -40,7 +46,7 @@ resource "google_container_cluster" "primary" {
 
     remove_default_node_pool = true
     initial_node_count = 1
-
+    deletion_protection = false
     network = var.network
     subnetwork = var.subnetwork
 

@@ -131,7 +131,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            ${{ env.REGISTRY_DOMAIN }}/${{ env.GCP_PROJECT_ID }}/app-images/${{ env.IMAGE_NAME }}
+            ${{ env.REGISTRY_DOMAIN }}/${{ env.GCP_PROJECT_ID }}/wiz-app/${{ env.IMAGE_NAME }}
             ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}
           tags: |
             type=ref,event=branch
@@ -178,7 +178,7 @@ jobs:
       - name: Push Verified Image to Artifact Registry
         #if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
-          TARGET_TAG="${{ env.REGISTRY_DOMAIN }}/${{ env.GCP_PROJECT_ID }}/app-images/${{ env.IMAGE_NAME }}"
+          TARGET_TAG="${{ env.REGISTRY_DOMAIN }}/${{ env.GCP_PROJECT_ID }}/wiz-app/${{ env.IMAGE_NAME }}"
           docker tag ${{ env.IMAGE_NAME }}:latest $TARGET_TAG:${{ github.sha }}
           docker tag ${{ env.IMAGE_NAME }}:latest $TARGET_TAG:latest
           docker push $TARGET_TAG:${{ github.sha }}

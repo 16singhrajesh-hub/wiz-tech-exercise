@@ -4,5 +4,5 @@ metadata:
   name: wiz-app
   labels:
     name: wiz-app
-    environment: demo
+    environment: prod
     purpose: wiz-exercise

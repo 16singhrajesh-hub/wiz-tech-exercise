@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: todo-app
+  name: wiz-app
   namespace: wiz-app
   labels:
-    app: todo-app
+    app: wiz-app
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: todo-app
+      app: wiz-app
   template:
     metadata:
       labels:
-        app: todo-app
+        app: wiz-app
     spec:
-      serviceAccountName: todo-app-sa
+      serviceAccountName: wiz-app-sa
       containers:
-        - name: todo-app
-          image: ${gcp-region}-docker.pkg.dev/${GCP_PROJECT_ID}/wiz-apps/wiz-todo-app:latest
+        - name: wiz-app
+          image: ${gcp-region}-docker.pkg.dev/${GCP_PROJECT_ID}/wiz-app/wiz-app:latest
           ports:
             - containerPort: 3000
               name: http

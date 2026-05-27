@@ -9,7 +9,7 @@ metadata:
 spec:
   defaultBackend:
     service:
-      name: todo-app-service
+      name: wiz-app-service
       port:
         number: 80
   rules:
@@ -19,6 +19,6 @@ spec:
         pathType: ImplementationSpecific
         backend:
           service:
-            name: todo-app-service
+            name: wiz-app-service
             port:
               number: 80

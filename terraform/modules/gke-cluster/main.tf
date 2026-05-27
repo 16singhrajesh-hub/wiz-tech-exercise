@@ -9,32 +9,32 @@ resource "google_service_account" "gke_nodes" {
 resource "google_project_iam_member" "gke_logging" {
     project = var.project_id
     role = "roles/logging.logWriter"
-    member = "serviceAccount:${google_service_account.gke_nodes.email}"
+    member = "serviceAccount:${google_service_account.gke_nodes.account_id}@${var.project_id}.iam.gserviceaccount.com"
 }
 
 resource "google_project_iam_member" "gke_monitoring" {
     project = var.project_id
     role = "roles/monitoring.metricWriter"
-    member = "serviceAccount:${google_service_account.gke_nodes.email}"
+    member = "serviceAccount:${google_service_account.gke_nodes.account_id}@${var.project_id}.iam.gserviceaccount.com"
 }
 
 resource "google_project_iam_member" "gke_monitoring_viewer" {
     project = var.project_id
     role = "roles/monitoring.viewer"
-    member = "serviceAccount:${google_service_account.gke_nodes.email}"
+    member = "serviceAccount:${google_service_account.gke_nodes.account_id}@${var.project_id}.iam.gserviceaccount.com"
 }
 
 
 resource "google_project_iam_member" "gke_artifact_registry" {
     project = var.project_id
     role = "roles/artifactregistry.reader"
-    member = "serviceAccount:${google_service_account.gke_nodes.email}"
+    member = "serviceAccount:${google_service_account.gke_nodes.account_id}@${var.project_id}.iam.gserviceaccount.com"
 }
 
 resource "google_project_iam_member" "gke_node_default_role" {
   project = var.project_id
   role    = "roles/container.defaultNodeServiceAccount"
-  member  = "serviceAccount:${google_service_account.gke_nodes.email}"
+  member  = "serviceAccount:${google_service_account.gke_nodes.account_id}@${var.project_id}.iam.gserviceaccount.com"
 }
 
 #GKE Cluster

@@ -256,7 +256,7 @@ jobs:
 
           # Update Secret with MongoDB IP
           sed -i "s/{{MONGO_IP}}/${{ steps.get-mongo-ip.outputs.MONGO_IP }}/g" secret.yaml
-          sed -i "s|REPLACE_WITH_MONGO_ROOT_PASSWORD|${{ env.MONGO_ROOT_PASSWORD }}|g" secret.yaml
+          sed -i "s|REPLACE_WITH_PASSWORD|${{ env.MONGO_ROOT_PASSWORD }}|g" secret.yaml
 
           echo "Updated Manifests: "
           echo "Deployment.yaml:"

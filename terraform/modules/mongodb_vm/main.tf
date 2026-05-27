@@ -8,13 +8,13 @@ resource "google_service_account" "mongodb_sa" {
 resource "google_project_iam_member" "mongodb_instance_admin" {
     project = var.project_id
     role = "roles/compute.instanceAdmin.v1"
-    member = "serviceAccount:${google_service_account.mongodb_sa.email}"
+    member = "serviceAccount:${google_service_account.mongodb_sa.account_id}@${var.project_id}.iam.gserviceaccount.com"
 }
 
 resource "google_project_iam_member" "mongodb_storage_admin" {
     project = var.project_id
     role = "roles/storage.admin"
-    member = "serviceAccount:${google_service_account.mongodb_sa.email}"
+    member = "serviceAccount:${google_service_account.mongodb_sa.account_id}@${var.project_id}.iam.gserviceaccount.com"
 }
 
 resource "google_compute_firewall" "mongodb_ssh" {

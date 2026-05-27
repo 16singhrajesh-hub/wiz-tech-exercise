@@ -1,12 +1,12 @@
 
-resource "google_project_iam_audit_config" "audit_all" {
+/* resource "google_project_iam_audit_config" "audit_all" {
     project = var.project_id
     service = "allServices"
 
     audit_log_config {
         log_type = "ADMIN_READ"
     }
-}
+} */
 
 resource "google_logging_project_sink" "audit_sink" {
     name = "wiz-audit-log-sink"

@@ -240,3 +240,69 @@ jobs:
           MONGO_IP=$(gcloud compute instances describe wiz-mongodb-vm --zone=${{ env.GCP_ZONE }} --format="value(networkInterfaces[0].networkIP)" --project=${{ env.GCP_PROJECT_ID }})
           echo "MONGO_IP=$MONGO_IP" >> $GITHUB_ENV
           echo "Found MongoDB IP: $MONGO_IP"
+
+      - name: Prepare Kubernetes Manifests
+        working-directory: app/k8s
+        run: |
+          # Create back up of Original Files
+          cp deployment.yaml deployment.yaml.bak
+          cp service.yaml service.yaml.bak
+          cp secret.yaml secret.yaml.bak
+
+          # Update Deployment with new Image
+          sed -i "s|GCP_PROJECT_ID|${{ env.GCP_PROJECT_ID }}|g" deployment.yaml
+          sed -i "s|GCP_REGION|${{ env.GCP_REGION }}|g" deployment.yaml
+          sed -i "s|:latest|:${{ github.sha }} |g" deployment.yaml
+
+          # Update Secret with MongoDB IP
+          sed -i "s/{{MONGO_IP}}/${{ steps.get-mongo-ip.outputs.MONGO_IP }}/g" secret.yaml
+          sed -i "s|REPLACE_WITH_MONGO_ROOT_PASSWORD|${{ env.MONGO_ROOT_PASSWORD }}|g" secret.yaml
+
+          echo "Updated Manifests: "
+          echo "Deployment.yaml:"
+          cat deployment.yaml
+          echo "Secret.yaml:"
+          cat secret.yaml
+
+      - name: Apply Kubernetes Manifests
+        working-directory: app/k8s
+        env:
+          USE_GKE_GCLOUD_AUTH_PLUGIN: "true"
+        run: |
+          kubectl apply -f namespace.yaml || echo "Namespace may already exist"
+          kubectl apply -f secret.yaml
+          kubectl apply -f serviceaccount.yaml || echo "ServiceAccount may already exist"
+          kubectl apply -f clusterrolebinding.yaml || echo "ClusterRoleBinding may already exist"          
+          kubectl apply -f deployment.yaml
+          kubectl apply -f service.yaml
+          kubectl apply -f ingress.yaml || echo "Ingress may already exist"
+      
+      
+      - name: Wait for Deployment Rollout
+        working-directory: app/k8s
+        env:
+          USE_GKE_GCLOUD_AUTH_PLUGIN: "true"
+        run: |
+          kubectl rollout status deployment/wiz-app-deployment -n wiz-app --timeout=120s
+      
+      - name: Verify Deployment
+        id: verify
+        run: |
+          echo "Deployment Status: ${{ steps.verify.outputs.status }}"
+          kubectl get deployment -n wiz-app
+
+          echo "Pods Status:"
+          kubectl get pods -n wiz-app
+
+          echo "Service Status: "
+          kubectl get service -n wiz-app
+
+          echo "Ingress Status: "
+          kubectl get ingress -n wiz-app
+
+      - name: Get Application URL
+        id: get-url
+        run: |
+          APP_URL=$(kubectl get ingress wiz-app-ingress -n wiz-app -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+          echo "APP_URL=http://$APP_URL" >> $GITHUB_ENV
+          echo "Application URL: http://$APP_URL"

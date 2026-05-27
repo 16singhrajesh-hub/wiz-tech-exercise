@@ -58,7 +58,7 @@ jobs:
 
       - name: Install Dependencies
         working-directory: 'app'
-        run: npm ci
+        run: npm install
 
       - name: Run ESLint
         working-directory: 'app'

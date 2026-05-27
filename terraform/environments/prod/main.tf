@@ -48,7 +48,7 @@ resource "google_project_service" "required_apis" {
 }
 
 resource "google_compute_network" "vpc" {
-    name = "wiz-exercise-pvc"
+    name = "wiz-exercise-vpc"
     auto_create_subnetworks = false
     depends_on = [google_project_service.required_apis]
 }

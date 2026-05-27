@@ -176,7 +176,7 @@ jobs:
           category: trivy-container
 
       - name: Push Verified Image to Artifact Registry
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        #if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           TARGET_TAG="${{ env.REGISTRY_DOMAIN }}/${{ env.GCP_PROJECT_ID }}/app-images/${{ env.IMAGE_NAME }}"
           docker tag ${{ env.IMAGE_NAME }}:latest $TARGET_TAG:${{ github.sha }}
@@ -185,7 +185,7 @@ jobs:
           docker push $TARGET_TAG:latest
 
       - name: Push Image to GitHub Container Registry
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        #if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           TARGET_TAG="ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}"
           docker tag ${{ env.IMAGE_NAME }}:latest $TARGET_TAG:${{ github.sha }}

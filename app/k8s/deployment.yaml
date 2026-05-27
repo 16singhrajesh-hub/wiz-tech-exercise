@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wiz-app
+  name: wiz-app-deployment
   namespace: wiz-app
   labels:
     app: wiz-app
@@ -18,7 +18,7 @@ spec:
       serviceAccountName: wiz-app-sa
       containers:
         - name: wiz-app
-          image: ${gcp-region}-docker.pkg.dev/${GCP_PROJECT_ID}/wiz-app/wiz-app:latest
+          image: GCP_REGION-docker.pkg.dev/GCP_PROJECT_ID/wiz-app/wiz-app:latest
           ports:
             - containerPort: 3000
               name: http

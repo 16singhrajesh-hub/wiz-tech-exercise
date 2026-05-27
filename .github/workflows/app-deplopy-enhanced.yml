@@ -200,7 +200,7 @@ jobs:
     name: Deploy to GKE
     needs: build-and-scan
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' # Modified to run automatically on push to main to complete exercise automation flow
+    #if: github.event_name == 'push' && github.ref == 'refs/heads/main' # Modified to run automatically on push to main to complete exercise automation flow
     environment:
       name: prod
     permissions:

@@ -30,6 +30,7 @@ env:
   REGISTRY_DOMAIN: ${{ secrets.GCP_REGION || 'us-west1' }}-docker.pkg.dev
   CLUSTER_NAME: wiz-exercise-cluster
   IMAGE_NAME: wiz-app
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # For actions that require explicit token reference
 
 jobs:
   # ==========================================================
@@ -172,7 +173,7 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: 'trivy-image-results.sarif'
-          category:并购trivy-container
+          category: trivy-container
 
       - name: Push Verified Image to Artifact Registry
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'

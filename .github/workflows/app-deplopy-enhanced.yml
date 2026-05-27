@@ -227,6 +227,8 @@ jobs:
           gcloud container clusters get-credentials ${{ env.CLUSTER_NAME }} --region ${{ env.GCP_REGION }} --project ${{ env.GCP_PROJECT_ID }}
 
       - name: Verify Cluster Access
+        env:
+          USE_GKE_GCLOUD_AUTH_PLUGIN: "true"
         run: |
           kubectl cluster-info
           kubectl get nodes

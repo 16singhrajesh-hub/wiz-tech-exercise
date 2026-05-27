@@ -303,6 +303,6 @@ jobs:
       - name: Get Application URL
         id: get-url
         run: |
-          APP_URL=$(kubectl get ingress wiz-app-ingress -n wiz-app -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+          APP_URL=$(kubectl get ingress wiz-ingress -n wiz-app -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
           echo "APP_URL=http://$APP_URL" >> $GITHUB_ENV
           echo "Application URL: http://$APP_URL"

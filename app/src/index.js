@@ -18,6 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(client => {
         console.log('Connected to MongoDB');
+        console.log(MONGODB_URI);
         db = client.db('tododb');
         todosCollection = db.collection('todos');
     })
@@ -133,5 +134,5 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
     app.listen(PORT, () => {
         console.log(`Server is running on port ${PORT}`);
-        console.log(`MongoDB URI: $MONGODB_URI.replace(/:[^:]*@/, '****@')}`);
+        console.log(`MongoDB URI: ${MONGODB_URI}`);
     });
